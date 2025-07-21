@@ -1,4 +1,4 @@
-name: Modern UI
+name: APK Build
 
 on:
   # Runs on push to any of the below branches
@@ -54,8 +54,7 @@ jobs:
 
     - name: Flet Build APK
       run: |
-        # Added --no-splash to disable the splash screen
-        flet build apk --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION --no-splash
+        flet build apk --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact
