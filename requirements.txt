@@ -1,2 +1,5 @@
-
+flet-lottie
 flet
+asyncio
+base64
+os
