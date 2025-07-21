@@ -1,31 +1,20 @@
 import flet as ft
 import flet_lottie as fl
 import asyncio
-import base64
-import os
 
 def splash_view(page: ft.Page):
     # Try to load Lottie animation with error handling
     lottie_widget = None
     try:
-        # Read Lottie file from the assets folder relative to main.py
-        asset_path = os.path.join(os.path.dirname(__file__), "..", "assets", "lottie.json")
-        print(f"Looking for Lottie file at: {asset_path}")  # Debug print
-        
-        if os.path.exists(asset_path):
-            with open(asset_path, "r", encoding="utf-8") as json_file:
-                json_data = json_file.read()
-                json_base64 = base64.b64encode(json_data.encode("utf-8")).decode("utf-8")
-            
-            lottie_widget = fl.Lottie(
-                src_base64=json_base64,
-                width=300,
-                height=300,
-                fit=ft.ImageFit.CONTAIN,
-                repeat=True,
-                background_loading=True,
-                animate=True,
-            )
+        lottie_widget = fl.Lottie(
+            src_base64='/lottie.json',
+            width=300,
+            height=300,
+            fit=ft.ImageFit.CONTAIN,
+            repeat=True,
+            background_loading=True,
+            animate=True,
+        )
     except Exception as e:
         print(f"Error loading Lottie animation: {e}")
         # Fallback to an icon if there's any error
