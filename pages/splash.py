@@ -1,45 +1,31 @@
 import flet as ft
-import flet_lottie as fl
-import asyncio
 
 def splash_view(page: ft.Page):
-    # Try to load Lottie animation with error handling
-    lottie_widget = None
-    try:
-        lottie_widget = fl.Lottie(
-            src_base64='/lottie.json',
-            width=300,
-            height=300,
-            fit=ft.ImageFit.CONTAIN,
-            repeat=True,
-            background_loading=True,
-            animate=True,
-        )
-    except Exception as e:
-        print(f"Error loading Lottie animation: {e}")
-        # Fallback to an icon if there's any error
-        lottie_widget = ft.Container(
-            content=ft.Icon(
-                ft.Icons.ROCKET_LAUNCH,
-                size=100,
-                color=ft.Colors.WHITE
-            ),
-        )
+    # Fallback static splash icon (no Lottie dependency)
+    splash_icon = ft.Container(
+        content=ft.Icon(
+            name=ft.Icons.ROCKET_LAUNCH,
+            size=100,
+            color=ft.Colors.WHITE
+        ),
+        alignment=ft.alignment.center
+    )
 
-    # Auto-navigate to login after 5 seconds
-    async def auto_navigate():
-        await asyncio.sleep(5)
+    # Timer-based redirection to login page (without asyncio)
+    def on_timer_tick(e):
         page.go("/login")
-    
-    page.run_task(auto_navigate)
 
-    # Create controls list
-    controls = []
-    if lottie_widget:
-        controls.append(lottie_widget)
-    
-    controls.extend([
-        ft.Container(height=20),  # Spacing
+    # Start a timer that triggers once after 5 seconds
+    page.timer(
+        interval=5000,  # milliseconds
+        repeat=False,
+        on_tick=on_timer_tick
+    )
+
+    # Splash screen controls
+    controls = [
+        splash_icon,
+        ft.Container(height=20),
         ft.Text(
             "Welcome to Flet App", 
             size=24, 
@@ -47,8 +33,9 @@ def splash_view(page: ft.Page):
             color=ft.Colors.WHITE,
             text_align=ft.TextAlign.CENTER
         ),
-    ])
+    ]
 
+    # Return splash view with background gradient
     return ft.View(
         route="/",
         controls=controls,
@@ -57,11 +44,4 @@ def splash_view(page: ft.Page):
             gradient=ft.LinearGradient(
                 begin=ft.alignment.top_left,
                 end=ft.alignment.bottom_right,
-                colors=["#10162c", "#0c2749", "#0f0f23", "#1a1a2e"],
-                tile_mode=ft.GradientTileMode.MIRROR
-            )
-        ),
-        vertical_alignment=ft.MainAxisAlignment.CENTER,
-        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        padding=20,
-    )
+                col
