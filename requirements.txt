@@ -1,8 +1,5 @@
-flet 
-flet cli
-flet desktop
-flet web
-flet lottie
-asyncio
-base64
-os
+flet==0.28.3
+flet-cli==0.28.3
+flet-desktop==0.28.3
+flet-lottie==0.1.0
+flet-web==0.28.3
