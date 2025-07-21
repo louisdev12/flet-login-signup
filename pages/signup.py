@@ -1,12 +1,15 @@
 import flet as ft
 
+# Sign-up screen UI definition
 def signup_view(page: ft.Page):
     return ft.View(
         route="/signup",
         controls=[
+            # ✅ Welcome header
             ft.Text("Create Account", size=50, weight="bold", font_family="Great Vibes", color=ft.Colors.BLUE),
             ft.Text("Sign up to get started", size=15, color=ft.Colors.GREY),
 
+            # ✅ Full Name input
             ft.TextField(
                 label="Full Name",
                 filled=True,
@@ -21,6 +24,7 @@ def signup_view(page: ft.Page):
                 height=50,
             ),
 
+            # ✅ Email input
             ft.TextField(
                 label="Email",
                 filled=True,
@@ -35,6 +39,7 @@ def signup_view(page: ft.Page):
                 height=50,
             ),
 
+            # ✅ Password input with reveal toggle
             ft.TextField(
                 label="Password",
                 password=True,
@@ -51,9 +56,14 @@ def signup_view(page: ft.Page):
                 height=50,
             ),
 
+            # ✅ Spacer and divider
             ft.Divider(height=20, color=ft.Colors.TRANSPARENT),
+
+            # ✅ Social login text
             ft.Text("─── or continue with ───", size=19, color=ft.Colors.GREY),
             ft.Divider(height=15, color=ft.Colors.TRANSPARENT),
+
+            # ✅ Social media buttons: Google, Microsoft, Apple
             ft.Row([
                 ft.Container(
                     width=50,
@@ -95,6 +105,8 @@ def signup_view(page: ft.Page):
                     )
                 ),
             ], alignment=ft.MainAxisAlignment.CENTER),
+
+            # ✅ Sign up button
             ft.Row([
                 ft.CupertinoButton(
                     content=ft.Text("Sign Up", size=22, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
@@ -106,6 +118,7 @@ def signup_view(page: ft.Page):
                 ),
             ]),
 
+            # ✅ Link to login page
             ft.Row([
                 ft.Text("Already have an account?", color=ft.Colors.GREY),
                 ft.TextButton(
@@ -114,6 +127,8 @@ def signup_view(page: ft.Page):
                 ),
             ], alignment=ft.MainAxisAlignment.CENTER),
         ],
+
+        # ✅ Background gradient decoration for visual appeal
         bgcolor=ft.Colors.TRANSPARENT,
         decoration=ft.BoxDecoration(
             gradient=ft.LinearGradient(
@@ -123,6 +138,8 @@ def signup_view(page: ft.Page):
                 tile_mode=ft.GradientTileMode.MIRROR
             )
         ),
+
+        # ✅ Center content on screen
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
     )
