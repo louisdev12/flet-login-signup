@@ -1,7 +1,7 @@
 import flet as ft
 
 def dashboard_view(page: ft.Page):
-    # Create story item
+    # ✅ Create a single story item (circular avatar + name)
     def create_story(avatar_color, name, is_own=False):
         border_color = ft.Colors.PINK_400 if not is_own else ft.Colors.GREY_600
         return ft.Column([
@@ -21,38 +21,39 @@ def dashboard_view(page: ft.Page):
             ft.Text(name if len(name) <= 8 else name[:8], size=12, color=ft.Colors.WHITE, text_align=ft.TextAlign.CENTER)
         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=4)
 
-    # Create post
+    # ✅ Create a social media-style post
     def create_post(username, avatar_color, time_ago, content, likes_count, comments, shares):
-        # UI refs
+        # Refs for dynamic UI updates (likes, save states)
         like_icon = ft.Ref[ft.IconButton]()
         save_icon = ft.Ref[ft.IconButton]()
         likes_text = ft.Ref[ft.Text]()
 
-        # Internal state
+        # Internal state for toggling like/save
         state = {
             "liked": False,
             "saved": False
         }
 
+        # Toggle like button
         def toggle_like(e):
             state["liked"] = not state["liked"]
             like_icon.current.icon = ft.Icons.FAVORITE if state["liked"] else ft.Icons.FAVORITE_BORDER
             like_icon.current.icon_color = ft.Colors.RED if state["liked"] else ft.Colors.WHITE
-
             count = int(likes_text.current.value)
             likes_text.current.value = str(count + 1 if state["liked"] else count - 1)
-
             page.update()
 
+        # Toggle save/bookmark
         def toggle_save(e):
             state["saved"] = not state["saved"]
             save_icon.current.icon = ft.Icons.BOOKMARK if state["saved"] else ft.Icons.BOOKMARK_BORDER
             save_icon.current.icon_color = ft.Colors.BLUE if state["saved"] else ft.Colors.WHITE
             page.update()
 
+        # Return the post container
         return ft.Container(
             content=ft.Column([
-                # Header
+                # Post header: avatar + username + timestamp
                 ft.Row([
                     ft.Container(
                         content=ft.Text(username[0].upper(), size=14, weight="bold", color=ft.Colors.WHITE),
@@ -68,10 +69,10 @@ def dashboard_view(page: ft.Page):
                     ft.IconButton(ft.Icons.MORE_HORIZ, icon_color=ft.Colors.GREY_400, icon_size=20)
                 ], spacing=12),
 
-                # Content
+                # Post text content
                 ft.Text(content, size=14, color=ft.Colors.WHITE, text_align=ft.TextAlign.LEFT),
 
-                # Image
+                # Image placeholder
                 ft.Container(
                     height=200,
                     bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.WHITE),
@@ -80,7 +81,7 @@ def dashboard_view(page: ft.Page):
                     alignment=ft.alignment.center
                 ),
 
-                # Actions
+                # Post action buttons (like, comment, share, save)
                 ft.Row([
                     ft.Row([
                         ft.IconButton(
@@ -118,13 +119,13 @@ def dashboard_view(page: ft.Page):
             border_radius=16
         )
 
-
+    # ✅ Return full dashboard page
     return ft.View(
         route="/dashboard",
         controls=[
             ft.Container(
                 content=ft.Column([
-                    # Header with profile and search
+                    # App bar (branding + top right icons)
                     ft.Container(
                         content=ft.Row([
                             ft.Text("Social App", size=24, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE, font_family="Great Vibes"),
@@ -151,7 +152,7 @@ def dashboard_view(page: ft.Page):
                         padding=ft.padding.only(left=20, right=20, top=40, bottom=10)
                     ),
                     
-                    # Stories Section
+                    # Stories (horizontal scroll list)
                     ft.Container(
                         content=ft.Column([
                             ft.Row([
@@ -165,7 +166,7 @@ def dashboard_view(page: ft.Page):
                         padding=ft.padding.symmetric(horizontal=20, vertical=16)
                     ),
                     
-                    # Create Post Section
+                    # Post creation input
                     ft.Container(
                         content=ft.Row([
                             ft.Container(
@@ -183,40 +184,41 @@ def dashboard_view(page: ft.Page):
                                 border_color=ft.Colors.TRANSPARENT,
                                 focused_border_color=ft.Colors.BLUE,
                             ),
-                            
-                            ft.IconButton(ft.Icons.PHOTO_CAMERA, icon_color=ft.Colors.BLUE_400, icon_size=24, tooltip=ft.Tooltip(message='Open Camera', bgcolor=ft.Colors.with_opacity(0.3, ft.Colors.BLACK), text_style=ft.TextStyle(color=ft.Colors.WHITE),)),
+                            ft.IconButton(
+                                ft.Icons.PHOTO_CAMERA,
+                                icon_color=ft.Colors.BLUE_400,
+                                icon_size=24,
+                                tooltip=ft.Tooltip(message='Open Camera', bgcolor=ft.Colors.with_opacity(0.3, ft.Colors.BLACK), text_style=ft.TextStyle(color=ft.Colors.WHITE)),
+                            ),
                         ], spacing=12),
                         padding=ft.padding.symmetric(horizontal=20, vertical=8),
                         margin=ft.margin.only(bottom=8)
                     ),
                     
-                    # Posts Feed
+                    # Posts feed (list of posts)
                     ft.Container(
                         content=ft.Column([
                             create_post("Alice Johnson", ft.Colors.PINK_400, "2h ago", 
                                       "Just finished an amazing workout! 💪 Feeling stronger every day. What's your favorite way to stay active?", 
                                       24, 8, 3),
-                            
                             create_post("Bob Smith", ft.Colors.GREEN_400, "4h ago", 
                                       "Beautiful sunset today! 🌅 Sometimes you just need to stop and appreciate the little moments in life.", 
                                       156, 23, 12),
-                            
                             create_post("Charlie Brown", ft.Colors.ORANGE_400, "6h ago", 
                                       "Trying out a new recipe today! Homemade pasta from scratch. Wish me luck! 🍝👨‍🍳", 
                                       67, 15, 5),
-                            
                             create_post("Diana Prince", ft.Colors.PURPLE_400, "8h ago", 
                                       "Weekend adventures! Exploring new trails and finding hidden gems in nature. Adventure is out there! 🏞️", 
                                       89, 19, 8)
-                            
                         ], spacing=0, scroll=ft.ScrollMode.AUTO),
                         expand=True
                     )
-                    
                 ], spacing=0, scroll=ft.ScrollMode.AUTO),
                 expand=True
             )
         ],
+
+        # ✅ Background styling using gradient
         bgcolor=ft.Colors.TRANSPARENT,
         decoration=ft.BoxDecoration(
             gradient=ft.LinearGradient(
