@@ -6,7 +6,7 @@ def splash_view(page: ft.Page):
     # Directly load the Lottie file from the assets folder
     try:
         lottie_widget = fl.Lottie(
-            src="assets/lottie.json",  # must be declared in flet.yaml
+            src="https://lottie.host/7ddc7741-1635-4aba-ab58-5d7768f84b6d/dWSTSHi55Q.json",  # must be declared in flet.yaml
             width=300,
             height=300,
             fit=ft.ImageFit.CONTAIN,
